@@ -1,6 +1,57 @@
 const express = require('express')
 const router = express.Router()
-// const Cafe = require('../models/cafe')
+const Cafe = require('../models/cafe')
+const Employee = require('../models/employee')
+
+router.get('/', async (req, res) => {
+    let cafes;
+    let qryLocation = req.query.location;
+    try {
+        if (qryLocation) {
+            // Get Cafes when location specified
+            cafes = await Cafe.aggregate([
+                {
+                    $match: {
+                        location: qryLocation // Replace 'Your Location' with the desired location value
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'employees', // Replace 'employees' with the actual collection name for employees
+                        localField: '_id',
+                        foreignField: 'workHistory.cafeId',
+                        as: 'employees'
+                    }
+                },
+                {
+                    $addFields: {
+                        employeeCount: { $size: '$employees' }
+                    }
+                },
+                {
+                    $sort: {
+                        employeeCount: -1
+                    }
+                },
+                {
+                    $project: {
+                        employees: 0 // Exclude the 'employees' field from the query results
+                    }
+                }
+            ]);
+
+        } else if (qryLocation === '' || qryLocation == null) {
+            // Return empty array when location is invalid
+            cafes = [];
+        } else {
+            // Get all when location is not specified
+            cafes = await Cafe.find();
+        }
+        res.status(200).json(cafes)
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+});
 
 
 // //ONLY FOR TESTING PURPOSES
