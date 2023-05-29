@@ -1,12 +1,32 @@
 const mongoose = require('mongoose');
-const cafe = require('cafe');
+const cafe = require('./cafe');
 
+// Work History Schema
+const workHistorySchema = new mongoose.Schema({
+    cafeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Cafe',
+        required: true,
+    },
+    startDate: {
+        type: Date,
+        required: true,
+    }
+});
 // Basic UserSchema
 const employeeSchema = new mongoose.Schema({
     id: {
         type: String,
         unique: true,
         required: true,
+        default: function () {
+            const alphanumeric = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let id = 'UI';
+            for (let i = 0; i < 7; i++) {
+                id += alphanumeric.charAt(Math.floor(Math.random() * alphanumeric.length));
+            }
+            return id;
+        }
     },
     name: {
         type: String,
@@ -39,18 +59,7 @@ const employeeSchema = new mongoose.Schema({
 
 });
 
-// Work History Schema
-const workHistoryList = new mongoose.Schema({
-    cafeId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Cafe',
-        required: true,
-    },
-    startDate: {
-        type: Date,
-        required: true,
-    }
-});
+
 
 // Define a pre-save hook to generate the "id" field value
 employeeSchema.pre('save', function (next) {
@@ -79,6 +88,58 @@ function generateAlphanumericValue() {
     return alphanumericString;
 }
 
-const workHistory = mongoose.model('workHistoryList', workHistoryListSchema);
+const workHistory = mongoose.model('workHistory', workHistorySchema);
+const Employee = mongoose.model('Employee', employeeSchema);
 
-module.exports = mongoose.model('Employee', employeeSchema)
+module.exports = Employee;
+
+// // for testing only
+
+// const Cafe = cafe; // Assuming you have a Cafe model defined
+
+// // Generate dummy data for employees
+// async function generateDummyEmployees(numEmployees) {
+//   const dummyEmployees = [];
+
+//   try {
+//     const cafes = await Cafe.find(); // Fetch all cafes from the database
+
+//     for (let i = 0; i < numEmployees; i++) {
+//       const employee = {
+//         name: `Employee ${i + 1}`,
+//         email_address: `employee${i + 1}@example.com`,
+//         phone: `123456789${i}`,
+//         gender: i % 2 === 0 ? 'Male' : 'Female',
+//         workHistory: [
+//           {
+//             cafeId: cafes[Math.floor(Math.random() * cafes.length)]._id, // Randomly select a cafe ID from existing cafes
+//             startDate: new Date(),
+//           }
+//         ]
+//       };
+
+//       dummyEmployees.push(employee);
+//     }
+
+//     return dummyEmployees;
+//   } catch (error) {
+//     console.error('Error fetching cafes:', error);
+//     throw error;
+//   }
+// }
+
+// // Generate 10 unique dummy employees
+// generateDummyEmployees(10)
+//   .then((dummyEmployees) => {
+//     console.log('Dummy employees generated:', dummyEmployees);
+
+//     // Save the dummy employees to MongoDB
+//     const Employee = mongoose.model('Employee', employeeSchema);
+//     return Employee.insertMany(dummyEmployees);
+//   })
+//   .then((savedEmployees) => {
+//     console.log('Dummy employees saved:', savedEmployees);
+//   })
+//   .catch((error) => {
+//     console.error('Error generating or saving dummy employees:', error);
+//   });
