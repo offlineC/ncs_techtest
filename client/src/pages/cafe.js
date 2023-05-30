@@ -1,5 +1,8 @@
+import CafeTable from "../components/cafetable";
 function Cafe(){
-    return(<> cafe page</>);
+    return(<>
+    <CafeTable></CafeTable>
+    </>);
 }
 
 export default Cafe;
