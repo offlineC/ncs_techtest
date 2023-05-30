@@ -10,22 +10,24 @@ function CafeTable() {
     const gridRef = useRef();
     const [cafeData, setCafeData] = useState(null);
     const [cafeDataLoaded, setCafeDataLoaded] = useState(false);
+    const [isClickedTrig, setIsClickTrig] = useState(false);
 
     useEffect(() => {
         getCafeData();
-    }, []);
+
+    }, [isClickedTrig]);
 
     const getCafeData = async () => {
         const cafeTableData = await axios.get('http://localhost:8000/cafes');
-        try{
+        try {
             if (cafeTableData.data !== null) {
                 setCafeData(cafeTableData.data);
                 setCafeDataLoaded(true);
             }
-        } catch (err){
+        } catch (err) {
             console.log(err);
         }
-        
+
     }
 
     const editBtnRender = ({ value }) => {
@@ -35,10 +37,20 @@ function CafeTable() {
     }
 
     const deleteBtnRender = ({ value }) => {
-        return <Button variant="contained" color="error">
+        const deleteCafe = (e) => {
+            axios.delete(`http://localhost:8000/cafes/${value.props.value}`).then((res)=>{
+                setIsClickTrig(!isClickedTrig);
+            }).catch((err)=>{
+                console.log(err);
+            });
+        }
+
+        return <Button variant="contained" color="error" onClick={deleteCafe}>
             Delete
         </Button>;
     }
+
+
 
     const dataCleanUp = () => {
         let arrCafeData = [];
@@ -46,7 +58,7 @@ function CafeTable() {
             cafeData.forEach((v, i) => {
                 //change thhis to link to button 
                 v.edit = <editBtnRender value={v._id} />;
-                v.delete = <deleteBtnRender value={v._id}/>;
+                v.delete = <deleteBtnRender value={v._id} />;
                 arrCafeData.push(v);
             });
         }
@@ -70,10 +82,10 @@ function CafeTable() {
         fieldNames().forEach((v, i) => {
             let keyval = { field: v };
             if (v === 'edit') {
-                keyval.cellRendererFramework = editBtnRender;
+                keyval.cellRenderer = editBtnRender;
             }
-            if(v === 'delete'){
-                keyval.cellRendererFramework = deleteBtnRender;
+            if (v === 'delete') {
+                keyval.cellRenderer = deleteBtnRender;
             }
             arrKeys.push(keyval);
         });

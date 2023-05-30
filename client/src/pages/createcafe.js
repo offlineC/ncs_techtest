@@ -19,7 +19,7 @@ function CreateCafe() {
         if (!('logo' in fd)) {
             fd.logo = '';
         }
-        axios.post(`http://localhost:8000/cafes/`, CafeData).then((res)=>{
+        axios.post(`http://localhost:8000/cafes/`, fd).then((res)=>{
             alert('Created');
         }).catch((err)=>{
             console.log(err)
@@ -33,7 +33,7 @@ function CreateCafe() {
         <form onSubmit={handleSubmit} style={{ padding: 30 }}>
             <TextField
                 label="Name"
-                variant="filled"
+                variant="outlined"
                 fullWidth
                 onChange={handleChange}
                 required
@@ -43,7 +43,7 @@ function CreateCafe() {
             <br /><br />
             <TextField
                 label="Description"
-                variant="filled"
+                variant="outlined"
                 fullWidth
                 onChange={handleChange}
                 required
@@ -52,7 +52,7 @@ function CreateCafe() {
             <br /><br />
             <TextField
                 label="Location"
-                variant="filled"
+                variant="outlined"
                 fullWidth
                 onChange={handleChange}
                 required
@@ -61,7 +61,7 @@ function CreateCafe() {
             <br /><br />
             <TextField
                 label="Logo"
-                variant={CafeData?.Logo == '' ? 'outlined' : 'filled'}
+                variant="outlined"
                 placeholder="Enter url of image"
                 fullWidth
                 onChange={handleChange}
