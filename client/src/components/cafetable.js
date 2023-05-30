@@ -2,6 +2,8 @@ import { AgGridReact } from 'ag-grid-react'
 import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import '../App.css'
+import { Link } from 'react-router-dom'
+import { Button } from '@mui/material'
 
 
 function CafeTable() {
@@ -21,12 +23,19 @@ function CafeTable() {
         }
     }
 
+    const editBtnRender = ({ value }) => {
+        console.log(value);
+        return <Button component={Link} to={`/editcafe/${value.props.value}`} variant="contained" color="primary">
+            Create Cafe
+        </Button>;
+    }
+
     const dataCleanUp = () => {
         let arrCafeData = [];
         if (cafeDataLoaded) {
             cafeData.forEach((v, i) => {
                 //change thhis to link to button 
-                v.edit = `<a >Edit</a>`;
+                v.edit = <editBtnRender value={v._id} />;
                 v.delete = `<a >Delete</a>`;
                 arrCafeData.push(v);
             });
@@ -50,6 +59,9 @@ function CafeTable() {
         let arrKeys = [];
         fieldNames().forEach((v, i) => {
             let keyval = { field: v };
+            if (v === 'edit') {
+                keyval.cellRendererFramework = editBtnRender;
+            }
             arrKeys.push(keyval);
         });
         return arrKeys;
