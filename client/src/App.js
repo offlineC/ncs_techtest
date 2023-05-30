@@ -1,7 +1,9 @@
 import { Routes, Route } from "react-router-dom"
 import Header from "./components/header"
 import Cafe from "./pages/cafe"
-import Employee from "./pages/employee";
+import Employee from "./pages/employee"
+import CreateCafe from "./pages/createcafe"
+
 function App() {
   return (<>
     <Header></Header>
@@ -9,8 +11,8 @@ function App() {
     <Routes>
       <Route path="/" element={<Cafe/>}></Route>
       <Route path="/cafes" element={<Cafe/>}></Route>
+      <Route path="/createcafe" element={<CreateCafe/>}></Route>
       <Route path="/employees" element={<Employee/>}></Route>
-      <Route path="/cafe" element={<Cafe/>}></Route>
     </Routes>
     </main>
   </>
