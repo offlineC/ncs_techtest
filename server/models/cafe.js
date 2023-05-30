@@ -61,10 +61,10 @@ function generateUniqueId() {
 // Need to specify the naming because it plusralizes the name to "Caves"
 module.exports = mongoose.model('Cafe', cafeSchema, 'cafes')
 
-// // // for testing only
+// for testing only
 
-// // Cafe Model
-// const Cafe = mongoose.model('Cafe', cafeSchema, 'cafes');
+// Cafe Model
+const Cafe = mongoose.model('Cafe', cafeSchema, 'cafes');
 
 // // Generate up to 5 dummy cafes
 // const dummyCafes = [];

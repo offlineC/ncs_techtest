@@ -1,8 +1,7 @@
 const mongoose = require('mongoose')
-const cafe = require('./cafe')
-const workHistory = require('./workHistory')
+const Cafe = require('./cafe')
 
-// Basic UserSchema
+// Basic employee Schema
 const employeeSchema = new mongoose.Schema({
     id: {
         type: String,
@@ -33,18 +32,14 @@ const employeeSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // Store the work history as an array
-    workHistory: {
-        type: [workHistory.workHistorySchema],
-        required: true,
-        validate: {
-            validator: function (value) {
-                const workHistoryIds = value.map((item) => item.cafeId.toString());
-                return new Set(workHistoryIds).size === workHistoryIds.length;
-            },
-            message: 'Each work history entry must be unique.',
-        },
+    cafeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: false,
     },
+    startDate: {
+        type: Date,
+        required: true,
+    }
 
 });
 
@@ -81,53 +76,45 @@ const Employee = mongoose.model('Employee', employeeSchema);
 
 module.exports = Employee;
 
-// // for testing only
+//testing only
 
-// const Cafe = cafe; // Assuming you have a Cafe model defined
+const generateDummyEmployees = async () => {
+    const cafeIds = await Cafe.find({}, '_id'); // Retrieve all cafe IDs from the Cafe collection
 
-// // Generate dummy data for employees
-// async function generateDummyEmployees(numEmployees) {
-//   const dummyEmployees = [];
+    const dummyEmployees = [];
+    for (let i = 0; i < 10; i++) {
+        const randomCafeIndex = Math.floor(Math.random() * cafeIds.length);
+        const cafeId = cafeIds[randomCafeIndex]._id;
 
-//   try {
-//     const cafes = await Cafe.find(); // Fetch all cafes from the database
+        const employee = new Employee({
+            id: generateAlphanumericValue(),
+            name: 'Employee ' + (i + 1),
+            email_address: 'employee' + (i + 1) + '@example.com',
+            phone: '9876543' + i,
+            gender: i % 2 === 0 ? 'Male' : 'Female',
+            cafeId: cafeId,
+            startDate: new Date('2022-01-0' + (i + 1))
+        });
 
-//     for (let i = 0; i < numEmployees; i++) {
-//       const employee = {
-//         name: `Employee ${i + 1}`,
-//         email_address: `employee${i + 1}@example.com`,
-//         phone: `123456789${i}`,
-//         gender: i % 2 === 0 ? 'Male' : 'Female',
-//         workHistory: [
-//           {
-//             cafeId: cafes[Math.floor(Math.random() * cafes.length)]._id, // Randomly select a cafe ID from existing cafes
-//             startDate: new Date(),
-//           }
-//         ]
-//       };
+        dummyEmployees.push(employee);
+    }
 
-//       dummyEmployees.push(employee);
-//     }
+    return dummyEmployees;
+};
 
-//     return dummyEmployees;
-//   } catch (error) {
-//     console.error('Error fetching cafes:', error);
-//     throw error;
-//   }
-// }
-
-// // Generate 10 unique dummy employees
-// generateDummyEmployees(10)
-//   .then((dummyEmployees) => {
-//     console.log('Dummy employees generated:', dummyEmployees);
-
-//     // Save the dummy employees to MongoDB
-//     const Employee = mongoose.model('Employee', employeeSchema);
-//     return Employee.insertMany(dummyEmployees);
-//   })
-//   .then((savedEmployees) => {
-//     console.log('Dummy employees saved:', savedEmployees);
-//   })
-//   .catch((error) => {
-//     console.error('Error generating or saving dummy employees:', error);
-//   });
+generateDummyEmployees()
+    .then((dummyEmployees) => {
+        console.log(dummyEmployees);
+        // Save the dummyEmployees to the employee collection or perform any other operations
+        Employee.create(dummyEmployees)
+            .then((savedEmployees) => {
+                console.log('Employees saved:', savedEmployees);
+                // Perform any additional operations after saving the employees
+            })
+            .catch((error) => {
+                console.error('Error saving employees:', error);
+            });
+    })
+    .catch((error) => {
+        console.error(error);
+    });
