@@ -95,6 +95,24 @@ router.put('/:id', async (req, res) => {
 });
 
 
+router.delete('/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+  
+      // Find the employee by their ID and remove them
+      const deletedEmployee = await Employee.findByIdAndDelete(id);
+  
+      if (!deletedEmployee) {
+        return res.status(404).json({ error: 'Employee not found' });
+      }
+  
+      res.json({ message: 'Employee deleted successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Failed to delete employee' });
+    }
+  });
+
 
 
 module.exports = router;

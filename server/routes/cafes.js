@@ -77,7 +77,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// POST /cafes
+
 router.post('/', async (req, res) => {
     try {
         const { name, description, location, logo } = req.body;
@@ -100,36 +100,51 @@ router.post('/', async (req, res) => {
     }
 });
 
-
-
-// PUT /cafes/:id
 router.put('/:id', async (req, res) => {
     try {
-      const { id } = req.params;
-      const { name, description, location, logo } = req.body;
-  
-      // Find the cafe by its ID
-      const cafe = await Cafe.findById(id);
-  
-      if (!cafe) {
-        return res.status(404).json({ error: 'Cafe not found' });
-      }
-  
-      // Update the cafe details
-      cafe.name = name;
-      cafe.description = description;
-      cafe.location = location;
-      cafe.logo = logo
-  
-      // Save the updated cafe to the database
-      const updatedCafe = await cafe.save();
-  
-      res.json(updatedCafe);
+        const { id } = req.params;
+        const { name, description, location, logo } = req.body;
+
+        // Find the cafe by its ID
+        const cafe = await Cafe.findById(id);
+
+        if (!cafe) {
+            return res.status(404).json({ error: 'Cafe not found' });
+        }
+
+        // Update the cafe details
+        cafe.name = name;
+        cafe.description = description;
+        cafe.location = location;
+        cafe.logo = logo
+
+        // Save the updated cafe to the database
+        const updatedCafe = await cafe.save();
+
+        res.json(updatedCafe);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Failed to update cafe' });
+        console.error(error);
+        res.status(500).json({ error: 'Failed to update cafe' });
     }
-  });
-  
+});
+
+router.delete('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Find the cafe by its ID and remove it
+        const deletedCafe = await Cafe.findByIdAndDelete(id);
+
+        if (!deletedCafe) {
+            return res.status(404).json({ error: 'Cafe not found' });
+        }
+
+        res.json({ message: 'Cafe deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to delete cafe' });
+    }
+});
+
 
 module.exports = router;
