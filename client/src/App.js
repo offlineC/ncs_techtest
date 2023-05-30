@@ -4,17 +4,23 @@ import Cafe from "./pages/cafe"
 import Employee from "./pages/employee"
 import CreateCafe from "./pages/createcafe"
 
+import { CssBaseline, ThemeProvider, createTheme,} from '@mui/material';
+
 function App() {
+  const defaultTheme = createTheme();
   return (<>
-    <Header></Header>
-    <main>
-    <Routes>
-      <Route path="/" element={<Cafe/>}></Route>
-      <Route path="/cafes" element={<Cafe/>}></Route>
-      <Route path="/createcafe" element={<CreateCafe/>}></Route>
-      <Route path="/employees" element={<Employee/>}></Route>
-    </Routes>
-    </main>
+    <ThemeProvider theme={defaultTheme}>
+      <CssBaseline />
+      <Header></Header>
+      <main style={{ maxWidth: '100%' }}>
+        <Routes>
+          <Route path="/" element={<Cafe />}></Route>
+          <Route path="/cafes" element={<Cafe />}></Route>
+          <Route path="/createcafe" element={<CreateCafe />}></Route>
+          <Route path="/employees" element={<Employee />}></Route>
+        </Routes>
+      </main>
+    </ThemeProvider>
   </>
 
   );

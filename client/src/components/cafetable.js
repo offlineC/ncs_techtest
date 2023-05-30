@@ -55,8 +55,6 @@ function CafeTable() {
         return arrKeys;
     }
 
-    console.log(fieldKeys());
-
     return (<>
         <div className="ag-theme-alpine" style={{ width: '100%', height: 700 }}>
             <AgGridReact ref={gridRef} rowData={dataCleanUp()} columnDefs={fieldKeys()} rowSelection='multiple'>
