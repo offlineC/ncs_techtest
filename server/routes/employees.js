@@ -40,21 +40,33 @@ router.get('/', async (req, res) => {
     }
 });
 
-// //ONLY FOR TESTING PURPOSES
-// // POST endpoint for an array of employee objects
-// router.post('/employees', async (req, res) => {
-//     const employees = req.body; // Array of employee objects
+// POST /employees
+router.post('/', async (req, res) => {
+    try {
+      const { name, email_address, phone, gender, cafeId, startDate } = req.body;
 
-//     try {
-//         // Save multiple employees to MongoDB
-//         const savedEmployees = await Employee.create(employees);
+      // Create a new employee instance
+      const employee = new Employee({
+        name,
+        email_address,
+        phone,
+        gender,
+        cafeId,
+        startDate
+      });
 
-//         res.status(200).json({ message: 'Employees successfully saved.', savedEmployees });
-//     } catch (error) {
-//         console.error('Error saving employees:', error);
-//         res.status(500).json({ error: 'Internal server error.' });
-//     }
-// });
+      employee.startDate = Date(employee.startDate);
+  
+      // Save the employee to the database
+      const savedEmployee = await employee.save();
+  
+      res.status(201).json(savedEmployee);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Failed to create employee' });
+    }
+  });
+
 
 
 module.exports = router;

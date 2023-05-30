@@ -5,6 +5,7 @@ const cafeSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+        default: generateUniqueId()
     },
     name: {
         type: String,

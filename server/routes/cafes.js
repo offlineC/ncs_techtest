@@ -11,61 +11,61 @@ router.get('/', async (req, res) => {
             // Get Cafes when location specified
             cafes = await Cafe.aggregate([
                 {
-                  $match: {
-                    location: qryLocation // Replace 'Your Location' with the desired location value
-                  }
+                    $match: {
+                        location: qryLocation // Replace 'Your Location' with the desired location value
+                    }
                 },
                 {
-                  $lookup: {
-                    from: 'employees', // Replace 'employees' with the actual collection name for employees
-                    localField: '_id',
-                    foreignField: 'cafeId',
-                    as: 'employees'
-                  }
+                    $lookup: {
+                        from: 'employees', // Replace 'employees' with the actual collection name for employees
+                        localField: '_id',
+                        foreignField: 'cafeId',
+                        as: 'employees'
+                    }
                 },
                 {
-                  $addFields: {
-                    employeeCount: { $size: '$employees' }
-                  }
+                    $addFields: {
+                        employeeCount: { $size: '$employees' }
+                    }
                 },
                 {
-                  $sort: {
-                    employeeCount: -1
-                  }
+                    $sort: {
+                        employeeCount: -1
+                    }
                 },
                 {
-                  $project: {
-                    employees: 0 // Exclude the 'employees' field from the query results
-                  }
+                    $project: {
+                        employees: 0 // Exclude the 'employees' field from the query results
+                    }
                 }
-              ]);
+            ]);
         } else if (qryLocation === '' || qryLocation == null) {
             // Get all when location is not specified
             cafes = await Cafe.aggregate([
                 {
-                  $lookup: {
-                    from: 'employees', // Replace 'employees' with the actual collection name for employees
-                    localField: '_id',
-                    foreignField: 'cafeId',
-                    as: 'employees'
-                  }
+                    $lookup: {
+                        from: 'employees', // Replace 'employees' with the actual collection name for employees
+                        localField: '_id',
+                        foreignField: 'cafeId',
+                        as: 'employees'
+                    }
                 },
                 {
-                  $addFields: {
-                    employeeCount: { $size: '$employees' }
-                  }
+                    $addFields: {
+                        employeeCount: { $size: '$employees' }
+                    }
                 },
                 {
-                  $sort: {
-                    employeeCount: -1
-                  }
+                    $sort: {
+                        employeeCount: -1
+                    }
                 },
                 {
-                  $project: {
-                    employees: 0 // Exclude the 'employees' field from the query results
-                  }
+                    $project: {
+                        employees: 0 // Exclude the 'employees' field from the query results
+                    }
                 }
-              ])
+            ])
 
         } else {
             // Return empty array when location is invalid
@@ -77,21 +77,28 @@ router.get('/', async (req, res) => {
     }
 });
 
+// POST /cafes
+router.post('/', async (req, res) => {
+    try {
+        const { name, description, location, logo } = req.body;
 
-// //ONLY FOR TESTING PURPOSES
-// // POST endpoint for an array of cafe objects
-// router.post('/cafes', async (req, res) => {
-//     const cafes = req.body; // Array of employee objects
+        // Create a new cafe instance
+        const cafe = new Cafe({
+            name,
+            description,
+            location,
+            logo
+        });
 
-//     try {
-//         // Save multiple cafe to MongoDB
-//         const savedCafes = await Cafe.create(cafes);
+        // Save the cafe to the database
+        const savedCafe = await cafe.save();
 
-//         res.status(200).json({ message: 'Cafes successfully saved.', savedCafes });
-//     } catch (error) {
-//         console.error('Error saving cafes:', error);
-//         res.status(500).json({ error: 'Internal server error.' });
-//     }
-// });
+        res.status(201).json(savedCafe);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to create cafe' });
+    }
+});
+
 
 module.exports = router;
