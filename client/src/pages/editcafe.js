@@ -6,15 +6,12 @@ import { TextField, Button } from '@mui/material'
 function EditCafe() {
     const { id } = useParams();
     const [CafeData, setCafeData] = useState([]);
-    const [CafeDataLoaded, setCafeDataLoaded] = useState(false);
-    const [formData, updateFormData] = useState();
 
     const getCafeData = async () => {
         try {
             const res = await axios.get(`http://localhost:8000/cafes?id=${id}`);
             if (res.data !== null) {
                 setCafeData(res.data[0]);
-                setCafeDataLoaded(true);
             }
         } catch (err) {
             console.log(err);
@@ -26,10 +23,6 @@ function EditCafe() {
     }, [id]);
 
     const handleChange = (e) => {
-        updateFormData({
-            ...formData,
-            [e.target.name]: e.target.value.trim()
-        });
         setCafeData({
             ...CafeData,
             [e.target.name]: e.target.value.trim()
@@ -39,10 +32,15 @@ function EditCafe() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        let fd = formData;
+        let fd = CafeData;
         if (!('logo' in fd)) {
             fd.logo = '';
         }
+        axios.put(`http://localhost:8000/cafes/${id}`, CafeData).then((res)=>{
+            alert('updated');
+        }).catch((err)=>{
+            console.log(err)
+        })
 
         // Handle form submission logic here
     };

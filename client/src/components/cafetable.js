@@ -29,14 +29,12 @@ function CafeTable() {
     }
 
     const editBtnRender = ({ value }) => {
-        console.log(value);
         return <Button component={Link} to={`/editcafe/${value.props.value}`} variant="contained" color="secondary">
             Edit
         </Button>;
     }
 
     const deleteBtnRender = ({ value }) => {
-        console.log(value);
         return <Button variant="contained" color="error">
             Delete
         </Button>;
