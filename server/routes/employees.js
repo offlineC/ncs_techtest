@@ -8,32 +8,52 @@ const moment = require('moment')
 router.get('/', async (req, res) => {
     let employees;
     let qryCafe = req.query.cafe;
+    let sortedEmployees;
     try {
-        const cafe = await Cafe.findOne({ name: qryCafe });
+        if (qryCafe) {
+            const cafe = await Cafe.findOne({ name: qryCafe });
 
-        if (!cafe) {
-            // Cafe not found
-            return [];
+            if (!cafe) {
+                // Cafe not found
+                return [];
+            }
+
+            const employees = await Employee.find({ cafeId: cafe._id });
+
+            const currentDate = moment();
+
+            // Calculate working days for each employee
+            const employeesWithWorkingDays = employees.map((employee) => {
+                const startDate = moment(employee.startDate);
+                const workingDays = currentDate.diff(startDate, 'days');
+
+                return {
+                    ...employee.toObject(),
+                    workingDays
+                };
+            });
+
+            // Sort employees by working days in descending order
+            sortedEmployees = employeesWithWorkingDays.sort((a, b) => b.workingDays - a.workingDays);
+        } else {
+            const employees = await Employee.find({ });
+
+            const currentDate = moment();
+
+            // Calculate working days for each employee
+            const employeesWithWorkingDays = employees.map((employee) => {
+                const startDate = moment(employee.startDate);
+                const workingDays = currentDate.diff(startDate, 'days');
+
+                return {
+                    ...employee.toObject(),
+                    workingDays
+                };
+            });
+
+            // Sort employees by working days in descending order
+            sortedEmployees = employeesWithWorkingDays.sort((a, b) => b.workingDays - a.workingDays);
         }
-
-        const employees = await Employee.find({ cafeId: cafe._id });
-
-        const currentDate = moment();
-
-        // Calculate working days for each employee
-        const employeesWithWorkingDays = employees.map((employee) => {
-            const startDate = moment(employee.startDate);
-            const workingDays = currentDate.diff(startDate, 'days');
-
-            return {
-                ...employee.toObject(),
-                workingDays
-            };
-        });
-
-        // Sort employees by working days in descending order
-        const sortedEmployees = employeesWithWorkingDays.sort((a, b) => b.workingDays - a.workingDays);
-
         res.status(200).json(sortedEmployees)
     } catch (err) {
         console.log(err);
@@ -97,21 +117,21 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try {
-      const { id } = req.params;
-  
-      // Find the employee by their ID and remove them
-      const deletedEmployee = await Employee.findByIdAndDelete(id);
-  
-      if (!deletedEmployee) {
-        return res.status(404).json({ error: 'Employee not found' });
-      }
-  
-      res.json({ message: 'Employee deleted successfully' });
+        const { id } = req.params;
+
+        // Find the employee by their ID and remove them
+        const deletedEmployee = await Employee.findByIdAndDelete(id);
+
+        if (!deletedEmployee) {
+            return res.status(404).json({ error: 'Employee not found' });
+        }
+
+        res.json({ message: 'Employee deleted successfully' });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Failed to delete employee' });
+        console.error(error);
+        res.status(500).json({ error: 'Failed to delete employee' });
     }
-  });
+});
 
 
 
