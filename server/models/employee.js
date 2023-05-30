@@ -1,18 +1,7 @@
-const mongoose = require('mongoose');
-const cafe = require('./cafe');
+const mongoose = require('mongoose')
+const cafe = require('./cafe')
+const workHistory = require('./workHistory')
 
-// Work History Schema
-const workHistorySchema = new mongoose.Schema({
-    cafeId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Cafe',
-        required: true,
-    },
-    startDate: {
-        type: Date,
-        required: true,
-    }
-});
 // Basic UserSchema
 const employeeSchema = new mongoose.Schema({
     id: {
@@ -46,7 +35,7 @@ const employeeSchema = new mongoose.Schema({
     },
     // Store the work history as an array
     workHistory: {
-        type: [workHistorySchema],
+        type: [workHistory.workHistorySchema],
         required: true,
         validate: {
             validator: function (value) {
@@ -88,7 +77,6 @@ function generateAlphanumericValue() {
     return alphanumericString;
 }
 
-const workHistory = mongoose.model('workHistory', workHistorySchema);
 const Employee = mongoose.model('Employee', employeeSchema);
 
 module.exports = Employee;

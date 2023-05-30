@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Cafe = require('../models/cafe')
 const Employee = require('../models/employee')
+const workHistory = require('../models/workHistory')
 
 router.get('/', async (req, res) => {
     let cafes;
@@ -11,32 +12,62 @@ router.get('/', async (req, res) => {
             // Get Cafes when location specified
             cafes = await Cafe.aggregate([
                 {
-                    $match: {
-                        location: qryLocation // Replace 'Your Location' with the desired location value
-                    }
+                    $match: { location: qryLocation } // Filter cafes by location
                 },
                 {
                     $lookup: {
-                        from: 'employees', // Replace 'employees' with the actual collection name for employees
-                        localField: '_id',
-                        foreignField: 'workHistory.cafeId',
+                        from: 'employees',
+                        let: { cafeId: '$_id' },
+                        pipeline: [
+                            {
+                                $match: {
+                                    $expr: {
+                                        $eq: ['$workHistory.cafeId', '$$cafeId'] // Match employee's cafeId with the cafe's _id
+                                    }
+                                }
+                            },
+                            {
+                                $project: {
+                                    name: 1,
+                                    workHistory: {
+                                        $arrayElemAt: [
+                                            {
+                                                $filter: {
+                                                    input: '$workHistory',
+                                                    as: 'wh',
+                                                    cond: { $eq: ['$$wh.cafeId', '$$cafeId'] } // Filter work history by cafe ID
+                                                }
+                                            },
+                                            -1 // Get the latest work history entry
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                $match: { 'workHistory': { $ne: null } } // Exclude employees without matching work history
+                            },
+                            {
+                                $group: {
+                                    _id: null,
+                                    employeeCount: { $sum: 1 } // Count the matching employees
+                                }
+                            }
+                        ],
                         as: 'employees'
                     }
                 },
                 {
-                    $addFields: {
-                        employeeCount: { $size: '$employees' }
-                    }
-                },
-                {
-                    $sort: {
-                        employeeCount: -1
-                    }
-                },
-                {
                     $project: {
-                        employees: 0 // Exclude the 'employees' field from the query results
+                        _id: 1,
+                        name: 1,
+                        description: 1,
+                        logo: 1,
+                        location: 1,
+                        employeeCount: { $ifNull: [{ $arrayElemAt: ['$employees.employeeCount', 0] }, 0] } // Set employeeCount to the count value, or 0 if it doesn't exist
                     }
+                },
+                {
+                    $sort: { employeeCount: -1 } // Sort by descending order of employee count
                 }
             ]);
 
