@@ -101,4 +101,35 @@ router.post('/', async (req, res) => {
 });
 
 
+
+// PUT /cafes/:id
+router.put('/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { name, description, location, logo } = req.body;
+  
+      // Find the cafe by its ID
+      const cafe = await Cafe.findById(id);
+  
+      if (!cafe) {
+        return res.status(404).json({ error: 'Cafe not found' });
+      }
+  
+      // Update the cafe details
+      cafe.name = name;
+      cafe.description = description;
+      cafe.location = location;
+      cafe.logo = logo
+  
+      // Save the updated cafe to the database
+      const updatedCafe = await cafe.save();
+  
+      res.json(updatedCafe);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Failed to update cafe' });
+    }
+  });
+  
+
 module.exports = router;
