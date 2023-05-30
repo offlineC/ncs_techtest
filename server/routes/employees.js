@@ -8,6 +8,7 @@ const moment = require('moment')
 router.get('/', async (req, res) => {
     let employees;
     let qryCafe = req.query.cafe;
+    let qryId = req.query.id;
     let sortedEmployees;
     try {
         if (qryCafe) {
@@ -36,7 +37,8 @@ router.get('/', async (req, res) => {
             // Sort employees by working days in descending order
             sortedEmployees = employeesWithWorkingDays.sort((a, b) => b.workingDays - a.workingDays);
         } else {
-            const employees = await Employee.find({ });
+            const findById = qryId ? { _id: qryId } : {};
+            const employees = await Employee.find(findById);
 
             const currentDate = moment();
 
@@ -54,11 +56,13 @@ router.get('/', async (req, res) => {
             // Sort employees by working days in descending order
             sortedEmployees = employeesWithWorkingDays.sort((a, b) => b.workingDays - a.workingDays);
         }
+
         res.status(200).json(sortedEmployees)
     } catch (err) {
         console.log(err);
     }
 });
+
 
 router.post('/', async (req, res) => {
     try {

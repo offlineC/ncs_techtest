@@ -6,6 +6,7 @@ const Employee = require('../models/employee')
 router.get('/', async (req, res) => {
     let cafes;
     let qryLocation = req.query.location;
+    let qryId = req.query.id;
     try {
         if (qryLocation) {
             // Get Cafes when location specified
@@ -71,6 +72,10 @@ router.get('/', async (req, res) => {
             // Return empty array when location is invalid
             cafes = [];
         }
+
+        if (qryId) {
+            cafes = await Cafe.find({ _id: qryId });
+        }
         res.status(200).json(cafes)
     } catch (err) {
         res.status(500).json({ message: err.message })
@@ -96,7 +101,7 @@ router.post('/', async (req, res) => {
         res.status(201).json(savedCafe);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Failed to create cafe' });
+        res.status(500).json({ message: 'Failed to create cafe' });
     }
 });
 
