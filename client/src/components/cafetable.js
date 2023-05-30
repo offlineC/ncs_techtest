@@ -17,16 +17,28 @@ function CafeTable() {
 
     const getCafeData = async () => {
         const cafeTableData = await axios.get('http://localhost:8000/cafes');
-        if (cafeTableData.data !== null) {
-            setCafeData(cafeTableData.data);
-            setCafeDataLoaded(true);
+        try{
+            if (cafeTableData.data !== null) {
+                setCafeData(cafeTableData.data);
+                setCafeDataLoaded(true);
+            }
+        } catch (err){
+            console.log(err);
         }
+        
     }
 
     const editBtnRender = ({ value }) => {
         console.log(value);
-        return <Button component={Link} to={`/editcafe/${value.props.value}`} variant="contained" color="primary">
-            Create Cafe
+        return <Button component={Link} to={`/editcafe/${value.props.value}`} variant="contained" color="secondary">
+            Edit
+        </Button>;
+    }
+
+    const deleteBtnRender = ({ value }) => {
+        console.log(value);
+        return <Button variant="contained" color="error">
+            Delete
         </Button>;
     }
 
@@ -36,7 +48,7 @@ function CafeTable() {
             cafeData.forEach((v, i) => {
                 //change thhis to link to button 
                 v.edit = <editBtnRender value={v._id} />;
-                v.delete = `<a >Delete</a>`;
+                v.delete = <deleteBtnRender value={v._id}/>;
                 arrCafeData.push(v);
             });
         }
@@ -61,6 +73,9 @@ function CafeTable() {
             let keyval = { field: v };
             if (v === 'edit') {
                 keyval.cellRendererFramework = editBtnRender;
+            }
+            if(v === 'delete'){
+                keyval.cellRendererFramework = deleteBtnRender;
             }
             arrKeys.push(keyval);
         });
