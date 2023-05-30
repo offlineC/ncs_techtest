@@ -2,18 +2,40 @@ const express = require('express')
 const router = express.Router()
 const Employee = require('../models/employee')
 const Cafe = require('../models/cafe')
+const moment = require('moment')
 
 
-router.get('/', async(req,res)=>{
+router.get('/', async (req, res) => {
     let employees;
     let qryCafe = req.query.cafe;
-    try{
-        if(qryCafe){
-            
-        }
+    try {
+        const cafe = await Cafe.findOne({ name: qryCafe });
 
-        res.status(200).json(employees)
-    } catch(err){
+        if (!cafe) {
+          // Cafe not found
+          return [];
+        }
+    
+        const employees = await Employee.find({ cafeId: cafe._id });
+    
+        const currentDate = moment();
+    
+        // Calculate working days for each employee
+        const employeesWithWorkingDays = employees.map((employee) => {
+          const startDate = moment(employee.startDate);
+          const workingDays = currentDate.diff(startDate, 'days');
+    
+          return {
+            ...employee.toObject(),
+            workingDays
+          };
+        });
+    
+        // Sort employees by working days in descending order
+        const sortedEmployees = employeesWithWorkingDays.sort((a, b) => b.workingDays - a.workingDays);
+
+        res.status(200).json(sortedEmployees)
+    } catch (err) {
         console.log(err);
     }
 });

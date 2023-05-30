@@ -78,43 +78,43 @@ module.exports = Employee;
 
 //testing only
 
-const generateDummyEmployees = async () => {
-    const cafeIds = await Cafe.find({}, '_id'); // Retrieve all cafe IDs from the Cafe collection
+// const generateDummyEmployees = async () => {
+//     const cafeIds = await Cafe.find({}, '_id'); // Retrieve all cafe IDs from the Cafe collection
 
-    const dummyEmployees = [];
-    for (let i = 0; i < 10; i++) {
-        const randomCafeIndex = Math.floor(Math.random() * cafeIds.length);
-        const cafeId = cafeIds[randomCafeIndex]._id;
+//     const dummyEmployees = [];
+//     for (let i = 0; i < 10; i++) {
+//         const randomCafeIndex = Math.floor(Math.random() * cafeIds.length);
+//         const cafeId = cafeIds[randomCafeIndex]._id;
 
-        const employee = new Employee({
-            id: generateAlphanumericValue(),
-            name: 'Employee ' + (i + 1),
-            email_address: 'employee' + (i + 1) + '@example.com',
-            phone: '9876543' + i,
-            gender: i % 2 === 0 ? 'Male' : 'Female',
-            cafeId: cafeId,
-            startDate: new Date('2022-01-0' + (i + 1))
-        });
+//         const employee = new Employee({
+//             id: generateAlphanumericValue(),
+//             name: 'Employee ' + (i + 1),
+//             email_address: 'employee' + (i + 1) + '@example.com',
+//             phone: '9876543' + i,
+//             gender: i % 2 === 0 ? 'Male' : 'Female',
+//             cafeId: cafeId,
+//             startDate: new Date('2022-01-0' + (i + 1))
+//         });
 
-        dummyEmployees.push(employee);
-    }
+//         dummyEmployees.push(employee);
+//     }
 
-    return dummyEmployees;
-};
+//     return dummyEmployees;
+// };
 
-generateDummyEmployees()
-    .then((dummyEmployees) => {
-        console.log(dummyEmployees);
-        // Save the dummyEmployees to the employee collection or perform any other operations
-        Employee.create(dummyEmployees)
-            .then((savedEmployees) => {
-                console.log('Employees saved:', savedEmployees);
-                // Perform any additional operations after saving the employees
-            })
-            .catch((error) => {
-                console.error('Error saving employees:', error);
-            });
-    })
-    .catch((error) => {
-        console.error(error);
-    });
+// generateDummyEmployees()
+//     .then((dummyEmployees) => {
+//         console.log(dummyEmployees);
+//         // Save the dummyEmployees to the employee collection or perform any other operations
+//         Employee.create(dummyEmployees)
+//             .then((savedEmployees) => {
+//                 console.log('Employees saved:', savedEmployees);
+//                 // Perform any additional operations after saving the employees
+//             })
+//             .catch((error) => {
+//                 console.error('Error saving employees:', error);
+//             });
+//     })
+//     .catch((error) => {
+//         console.error(error);
+//     });
