@@ -31,5 +31,5 @@ D - The delete buttons of the cafe list immediately deletes an entry from the ca
 
 The Employee's CRUD pages are not complete yet, due to the mentioned time constraint.
 
-### Notes on the 
+### Notes on the Material UI and AG Grid
 It is my first time using AG-Grid and Material UI. It took me 48 hours to understand how the components work, especially since there was an update to the AG-Grid API. Although it is my first time as well using Material UI on react, I am able to infer how the components work as I have worked with Flutter's syntax on created widgets using its internal Material UI.
