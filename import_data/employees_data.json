@@ -1,0 +1,189 @@
+[{
+  "_id": {
+    "$oid": "64757d820368b08b677feddb"
+  },
+  "id": "UI053gvqe",
+  "name": "Employee 1",
+  "email_address": "employee1@example.com",
+  "phone": "98765430",
+  "gender": "Male",
+  "cafeId": {
+    "$oid": "647571844ec135818a84154d"
+  },
+  "startDate": {
+    "$date": "2022-01-01T00:00:00.000Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64757d820368b08b677feddc"
+  },
+  "id": "UI0cbt2pi",
+  "name": "Employee 2",
+  "email_address": "employee2@example.com",
+  "phone": "98765431",
+  "gender": "Female",
+  "cafeId": {
+    "$oid": "647571844ec135818a84154e"
+  },
+  "startDate": {
+    "$date": "2022-01-02T00:00:00.000Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64757d820368b08b677feddf"
+  },
+  "id": "UI0ordi0p",
+  "name": "Employee 5",
+  "email_address": "employee5@example.com",
+  "phone": "98765434",
+  "gender": "Male",
+  "cafeId": {
+    "$oid": "647571844ec135818a84154e"
+  },
+  "startDate": {
+    "$date": "2022-01-05T00:00:00.000Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64757d820368b08b677fede0"
+  },
+  "id": "UI0qe4tfn",
+  "name": "Employee 6",
+  "email_address": "employee6@example.com",
+  "phone": "98765435",
+  "gender": "Female",
+  "cafeId": {
+    "$oid": "647571844ec135818a84154c"
+  },
+  "startDate": {
+    "$date": "2022-01-06T00:00:00.000Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64757d820368b08b677fede1"
+  },
+  "id": "UI0evi1u1",
+  "name": "Employee 7",
+  "email_address": "employee7@example.com",
+  "phone": "98765436",
+  "gender": "Male",
+  "cafeId": {
+    "$oid": "647571844ec135818a84154c"
+  },
+  "startDate": {
+    "$date": "2022-01-07T00:00:00.000Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64757d820368b08b677fede2"
+  },
+  "id": "UI0o8vhej",
+  "name": "Employee 8",
+  "email_address": "employee8@example.com",
+  "phone": "98765437",
+  "gender": "Female",
+  "cafeId": {
+    "$oid": "647571844ec135818a84154b"
+  },
+  "startDate": {
+    "$date": "2022-01-08T00:00:00.000Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64757d820368b08b677fede3"
+  },
+  "id": "UI0qmlj3r",
+  "name": "Employee 9",
+  "email_address": "employee9@example.com",
+  "phone": "98765438",
+  "gender": "Male",
+  "cafeId": {
+    "$oid": "647571844ec135818a84154f"
+  },
+  "startDate": {
+    "$date": "2022-01-09T00:00:00.000Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64757d820368b08b677fede4"
+  },
+  "id": "UI0sly4oa",
+  "name": "Employee 10",
+  "email_address": "employee10@example.com",
+  "phone": "98765439",
+  "gender": "Female",
+  "cafeId": {
+    "$oid": "647571844ec135818a84154d"
+  },
+  "startDate": {
+    "$date": "2022-01-09T16:00:00.000Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64757d820368b08b677feddd"
+  },
+  "id": "UI03y7554",
+  "name": "Employee 3",
+  "email_address": "employee3@example.com",
+  "phone": "98765432",
+  "gender": "Male",
+  "cafeId": {
+    "$oid": "647571844ec135818a84154d"
+  },
+  "startDate": {
+    "$date": "2022-01-03T00:00:00.000Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64757d820368b08b677fedde"
+  },
+  "id": "UI0yuzolq",
+  "name": "Employee 4",
+  "email_address": "employee4@example.com",
+  "phone": "98765433",
+  "gender": "Female",
+  "cafeId": {
+    "$oid": "647571844ec135818a84154c"
+  },
+  "startDate": {
+    "$date": "2022-01-04T00:00:00.000Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "647592e467eb12edf864746a"
+  },
+  "name": "Monster Boy",
+  "email_address": "monsterboy@gmail.com",
+  "phone": "9123456",
+  "gender": "Male",
+  "cafeId": null,
+  "startDate": {
+    "$date": "2023-05-30T06:08:36.000Z"
+  },
+  "id": "UI0rfbvop",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "647594049b0ec280877b1c1b"
+  },
+  "name": "Banana Top Beans",
+  "email_address": "bananatopbeans@gmail.com",
+  "phone": "9123456",
+  "gender": "Female",
+  "cafeId": null,
+  "startDate": {
+    "$date": "2023-05-30T06:13:24.000Z"
+  },
+  "id": "UI0bxwq3u",
+  "__v": 0
+}]

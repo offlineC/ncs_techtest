@@ -1,0 +1,91 @@
+[{
+  "_id": {
+    "$oid": "647571844ec135818a84154b"
+  },
+  "id": "CF930216",
+  "name": "Cafe 1",
+  "description": "Description 1",
+  "logo": "Logo 1",
+  "location": "Location 1",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "647571844ec135818a84154c"
+  },
+  "id": "CF320431",
+  "name": "Cafe 2",
+  "description": "Description 2",
+  "logo": "Logo 2",
+  "location": "Location 2",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "647571844ec135818a84154d"
+  },
+  "id": "CF150105",
+  "name": "Cafe 3",
+  "description": "Description 3",
+  "logo": "Logo 3",
+  "location": "Location 3",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "647571844ec135818a84154e"
+  },
+  "id": "CF646499",
+  "name": "Cafe 4",
+  "description": "Description 4",
+  "logo": "Logo 4",
+  "location": "Location 4",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "647571844ec135818a84154f"
+  },
+  "id": "CF617100",
+  "name": "Cafe 5",
+  "description": "Description 5",
+  "logo": "Logo 5",
+  "location": "Location 5",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64758eba9a88ecba66cdfd3b"
+  },
+  "id": "CF798025",
+  "name": "Monster cafe",
+  "description": "A fund cafe that features characters from Monsters Inc",
+  "logo": "https://placehold.it/500",
+  "location": "Tanjong Pagar",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "647594009b0ec280877b1c19"
+  },
+  "id": "CF520232",
+  "name": "High cafe",
+  "description": "BergieHills",
+  "logo": "https://placehold.it/1000",
+  "location": "Clark Quay",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64762e2a91c94e69f961eb5d"
+  },
+  "id": "CF180362",
+  "name": "Low cafe",
+  "description": "Fergie",
+  "logo": "",
+  "location": "Clark Quay",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6476440c9cce652302808a74"
+  },
+  "id": "CF816089",
+  "name": "New Cafe",
+  "description": "testing only",
+  "logo": "",
+  "location": "Singapore",
+  "__v": 0
+}]
