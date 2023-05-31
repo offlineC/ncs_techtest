@@ -6,6 +6,7 @@ This read me is to provide the current progress of the test. Due to time constra
 The backend makes use of:
 - ExpressJS
 - Nodemon
+- DOTENV (set up basic connection to database)
 - CORS (for bypassing CORS issue when transferring data between local database and client app)
 - Mongoose (for connecting to local MongoDB database)
 - MongoDB (for the database)
